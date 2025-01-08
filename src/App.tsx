@@ -1,10 +1,13 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
+
+import { Question } from "./home/Question";
 
 function App() {
   return (
     <>
-      <Button>Click me</Button>
+      <div className="flex justify-center items-center h-screen">
+        <Question></Question>
+      </div>
     </>
   );
 }
