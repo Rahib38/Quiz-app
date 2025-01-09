@@ -1,4 +1,5 @@
-import { useAppSelector } from "@/app/hook";
+import { setAnswer } from "@/app/features/quiz/quizSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,14 +11,17 @@ import {
 } from "@/components/ui/card";
 
 export function Question() {
+  const dispatch = useAppDispatch()
   const { question, currentQuestionIndex } = useAppSelector(
     (state) => state.quiz
   );
   const currentQuestion = question[currentQuestionIndex];
-  console.log(question);
+  const handleAnswerChange = (answer:string)=>{
+    dispatch(setAnswer({questionIndex:currentQuestionIndex,answer}))
+  }
   return (
-    <div className="flex justify-center ">
-      <Card className="w-[350px]">
+    <div className=" flex justify-center ">
+      <Card className="w-[450px]">
         <CardHeader>
           <CardTitle>{currentQuestion.question}</CardTitle>
           <CardDescription>
@@ -26,12 +30,12 @@ export function Question() {
         </CardHeader>
         <CardContent>
           {currentQuestion.options.map((option) => (
-            <Button className="w-full mt-3">{option}</Button>
+            <Button onClick={()=>handleAnswerChange(option)} className="w-full mt-3">{option}</Button>
           ))}
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button>Deploy</Button>
+          <Button variant="outline">Previous</Button>
+          <Button>Next</Button>
         </CardFooter>
       </Card>
     </div>

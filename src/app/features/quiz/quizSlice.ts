@@ -19,10 +19,15 @@ const initialState:TQuiz = {
 export const quizSlice = createSlice({
   name: "quiz",
   initialState,
-  reducers: {},
+  reducers: {
+    setAnswer:(state,action)=>{
+const {questionIndex,answer}=action.payload
+console.log(answer,questionIndex)
+    }
+  },
 });
 
 // Action creators are generated for each case reducer function
 // export const {  } = quizSlice.actions
-
+export const {setAnswer}=quizSlice.actions
 export default quizSlice.reducer;
