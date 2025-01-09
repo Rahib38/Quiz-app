@@ -10,20 +10,24 @@ import {
 } from "@/components/ui/card";
 
 export function Question() {
-  const {question}=useAppSelector((state)=>state.quiz)
-  console.log(question)
+  const { question, currentQuestionIndex } = useAppSelector(
+    (state) => state.quiz
+  );
+  const currentQuestion = question[currentQuestionIndex];
+  console.log(question);
   return (
     <div className="flex justify-center ">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Create project</CardTitle>
+          <CardTitle>{currentQuestion.question}</CardTitle>
           <CardDescription>
-            Deploy your new project in one-click.
+            Question: {currentQuestionIndex + 1} of {question.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
-
-          
+          {currentQuestion.options.map((option) => (
+            <Button className="w-full mt-3">{option}</Button>
+          ))}
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">Cancel</Button>
