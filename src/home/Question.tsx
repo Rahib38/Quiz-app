@@ -1,4 +1,9 @@
-import { nextQuestion, previousQuestion, setAnswer } from "@/app/features/quiz/quizSlice";
+import {
+  completeQuiz,
+  nextQuestion,
+  previousQuestion,
+  setAnswer,
+} from "@/app/features/quiz/quizSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +17,12 @@ import {
 
 export function Question() {
   const dispatch = useAppDispatch();
-  const { question, currentQuestionIndex } = useAppSelector(
+  const { question, currentQuestionIndex, userAnswers ,} = useAppSelector(
     (state) => state.quiz
   );
+  const currentAnswers = userAnswers[currentQuestionIndex];
+  const isAnswerSeleted = userAnswers[currentQuestionIndex] !== null;
+  const isCompleteQuiz = isAnswerSeleted || currentQuestionIndex !== question.length-1;
   const currentQuestion = question[currentQuestionIndex];
   const handleAnswerChange = (answer: string) => {
     dispatch(setAnswer({ questionIndex: currentQuestionIndex, answer }));
@@ -25,6 +33,9 @@ export function Question() {
   };
   const handlePrevious = () => {
     dispatch(previousQuestion());
+  };
+  const handleCompleteQuiz = () => {
+    dispatch(completeQuiz());
   };
   return (
     <div className=" flex justify-center ">
@@ -41,14 +52,25 @@ export function Question() {
               key={index}
               onClick={() => handleAnswerChange(option)}
               className="w-full mt-3"
+              variant={option === currentAnswers ? "default" : "outline"}
             >
               {option}
             </Button>
           ))}
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button onClick={handlePrevious} variant="outline">Previous</Button>
-          <Button onClick={handleNext}>Next</Button>
+          <Button
+            onClick={handlePrevious}
+            disabled={currentQuestionIndex === 0}
+          >
+            Previous
+          </Button>
+          {currentQuestionIndex < question.length - 1 && (
+            <Button disabled={!isAnswerSeleted} onClick={handleNext}>Next</Button>
+          )}
+          {currentQuestionIndex === question.length - 1 && (
+            <Button disabled={!isCompleteQuiz} onClick={handleCompleteQuiz}>Complete Quiz</Button>
+          )}
         </CardFooter>
       </Card>
     </div>
