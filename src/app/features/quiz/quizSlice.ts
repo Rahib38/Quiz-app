@@ -24,10 +24,21 @@ export const quizSlice = createSlice({
       state.userAnswers[questionIndex] = answer;
       // console.log(answer,questionIndex)
     },
+    nextQuestion: (state) => {
+      if (state.currentQuestionIndex < state.question.length - 1) {
+        state.currentQuestionIndex += 1;
+        console.log(state.currentQuestionIndex)
+      }
+    },
+    previousQuestion:(state)=>{
+      if(state.currentQuestionIndex>0){
+        state.currentQuestionIndex -=1
+      }
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
 // export const {  } = quizSlice.actions
-export const { setAnswer } = quizSlice.actions;
+export const { setAnswer, nextQuestion,previousQuestion } = quizSlice.actions;
 export default quizSlice.reducer;

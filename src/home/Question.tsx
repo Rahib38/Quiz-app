@@ -1,4 +1,4 @@
-import { setAnswer } from "@/app/features/quiz/quizSlice";
+import { nextQuestion, previousQuestion, setAnswer } from "@/app/features/quiz/quizSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,14 +11,21 @@ import {
 } from "@/components/ui/card";
 
 export function Question() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { question, currentQuestionIndex } = useAppSelector(
     (state) => state.quiz
   );
   const currentQuestion = question[currentQuestionIndex];
-  const handleAnswerChange = (answer:string)=>{
-    dispatch(setAnswer({questionIndex:currentQuestionIndex,answer}))
-  }
+  const handleAnswerChange = (answer: string) => {
+    dispatch(setAnswer({ questionIndex: currentQuestionIndex, answer }));
+  };
+
+  const handleNext = () => {
+    dispatch(nextQuestion());
+  };
+  const handlePrevious = () => {
+    dispatch(previousQuestion());
+  };
   return (
     <div className=" flex justify-center ">
       <Card className="w-[450px]">
@@ -29,13 +36,19 @@ export function Question() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {currentQuestion.options.map((option,index) => (
-            <Button key={index} onClick={()=>handleAnswerChange(option)} className="w-full mt-3">{option}</Button>
+          {currentQuestion.options.map((option, index) => (
+            <Button
+              key={index}
+              onClick={() => handleAnswerChange(option)}
+              className="w-full mt-3"
+            >
+              {option}
+            </Button>
           ))}
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Previous</Button>
-          <Button>Next</Button>
+          <Button onClick={handlePrevious} variant="outline">Previous</Button>
+          <Button onClick={handleNext}>Next</Button>
         </CardFooter>
       </Card>
     </div>
