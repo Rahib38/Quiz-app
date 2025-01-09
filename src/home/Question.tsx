@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/app/hook";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,6 +10,8 @@ import {
 } from "@/components/ui/card";
 
 export function Question() {
+  const {question}=useAppSelector((state)=>state.quiz)
+  console.log(question)
   return (
     <div className="flex justify-center ">
       <Card className="w-[350px]">
@@ -18,7 +21,10 @@ export function Question() {
             Deploy your new project in one-click.
           </CardDescription>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+
+          
+        </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">Cancel</Button>
           <Button>Deploy</Button>
