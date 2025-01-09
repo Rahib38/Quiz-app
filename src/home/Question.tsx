@@ -29,8 +29,8 @@ export function Question() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {currentQuestion.options.map((option) => (
-            <Button onClick={()=>handleAnswerChange(option)} className="w-full mt-3">{option}</Button>
+          {currentQuestion.options.map((option,index) => (
+            <Button key={index} onClick={()=>handleAnswerChange(option)} className="w-full mt-3">{option}</Button>
           ))}
         </CardContent>
         <CardFooter className="flex justify-between">
